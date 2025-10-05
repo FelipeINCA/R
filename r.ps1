@@ -9,7 +9,7 @@ Try {
     Invoke-WebRequest -Uri $imageUrl -OutFile $dest -ErrorAction Stop
     Write-Host "Descargada en: $dest"
 } Catch {
-    Write-Host "ERROR al descargar:" $_.Exception.Message
+    Write-Host ("ERROR al descargar: {0}" -f $_.Exception.Message)
     Exit 1
 }
 
@@ -17,15 +17,16 @@ Start-Sleep -Seconds 1
 
 $lnkPath = Join-Path $env:USERPROFILE ("Desktop\" + $lnkName)
 If (Test-Path $lnkPath) {
-    Try {
+    try {
         Remove-Item -LiteralPath $lnkPath -Force -ErrorAction Stop
         Write-Host "$lnkName borrado."
-    } Catch {
-        Write-Host "No se pudo borrar $lnkName: " $_.Exception.Message
+    } catch {
+        Write-Host ("No se pudo borrar {0}: {1}" -f $lnkName, $_.Exception.Message)
     }
-} Else {
+} else {
     Write-Host "$lnkName no encontrado en el Escritorio."
 }
 
 Start-Sleep -Seconds 1
 Exit 0
+
